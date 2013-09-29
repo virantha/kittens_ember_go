@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Kittens</title>
+      <link rel="stylesheet" href="css/normalize.css">
+      <link rel="stylesheet" href="css/style.css">
+      <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+</head>
+</head>
+<body>
+<script type="text/x-handlebars">
+<div class="container">
+<h1>Create your own kitten</h1>
+    <ul class="nav nav-tabs">
+        <li> {{#linkTo 'index'}}Index{{/linkTo}}</li>
+        <li> {{#linkTo 'create'}}Create{{/linkTo}}</li>
+    </ul>
+  {{outlet}}
+</div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+<ul class="thumbnails">
+{{#each controller}}
+
+  <li class="span3">
+    <div class="thumbnail">
+      <img {{bindAttr src="picture"}}/>
+      <div class="caption">
+          <h3>{{name}}</h3>
+          {{#linkTo 'edit' this}}Edit{{/linkTo}}
+          <button {{action deleteKitten this}}>Delete</button>
+      </div>
+    </div>
+  </li>
+
+{{/each}}
+</ul>
+</script>
+
+<script type="text/x-handlebars" data-template-name="_form">
+    <form {{action save on="submit"}} class="form-inline">
+        {{input type="text" value=name}}
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</script>
+
+<script type="text/x-handlebars" data-template-name="create">
+    <h1>Create kitten</h1>
+    {{partial 'form'}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="edit">
+    <h1>Edit kitten</h1>
+    {{partial 'form'}}
+</script>
+    
+<script src="js/lib/jquery.js"></script>
+<script src="js/lib/handlebars.js"></script>
+<script src="js/lib/ember.js"></script>
+<script src="js/lib/ember-data.js"></script>
+<script src="js/app_kittens.js"></script>
+</body>
+</html>

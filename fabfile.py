@@ -3,11 +3,12 @@ import os
  
 env.hosts = ['virantha@96.8.112.217']
   
-def get_dependencies():
+def get_dep():
     # Get all the local ember.js dependencies
     js_lib_path = "site/js/lib"
-    js_libs = { 'jquery.js': "http://code.jquery.com/jquery-2.0.0.js",
-                'handlebars.js': 'https://raw.github.com/wycats/handlebars.js/1.0.0-rc.4/dist/handlebars.js',
+    js_libs = { 'jquery.js': "http://code.jquery.com/jquery-1.9.1.js",
+                #'handlebars.js': 'https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.runtime.js',
+                'handlebars.js': 'https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.js',
                 'ember.js': 'http://builds.emberjs.com.s3.amazonaws.com/ember-latest.js',
                 'ember-data.js': 'http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.js',
                 }
@@ -23,13 +24,14 @@ def copy():
     #run('mkdir -p /home/userX/mynewfolder')
                
     # our local 'localdirectory' (it may contain files or subdirectories)
-    put('site', '/home/virantha/www_test_wiki')
-    run('cd /home/virantha/www_test_wiki/site')
-    run('go build wiki.go')
-    run('nohup ./wiki &')
+    put('site', '/home/virantha/www_kittens')
+    with cd('/home/virantha/www_kittens/go/'):
+        run('go get github.com/gorilla/mux')
+        #run('mkdir src/github.com/virantha')
+    put('go/src/github.com/virantha/server.go', '/home/virantha/www_kittens/go/src/github.com/virantha')
 
 def build():
-    with cd('/home/virantha/www_test_wiki/site'):
+    with cd('/home/virantha/www_kittens/go/src/github.com/virantha'):
         run('ls')
-        run('go build wiki.go')
-        run('nohup ./wiki >& /dev/null < /dev/null &',pty=False)
+        run('go build server.go')
+        #run('nohup ./wiki >& /dev/null < /dev/null &',pty=False)
